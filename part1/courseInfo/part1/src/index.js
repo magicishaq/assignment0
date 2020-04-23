@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const Hello = (props) => {
   return(
-
+<></>
   )
 }
 
