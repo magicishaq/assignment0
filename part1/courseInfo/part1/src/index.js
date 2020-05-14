@@ -93,28 +93,72 @@
 /**
  * Event Handeling 
  */
-import React, {useState}from 'react'
-import ReactDOM from 'react-dom'
+// import React, {useState}from 'react'
+// import ReactDOM from 'react-dom'
 
- /**
-  * Passing state to child components
-  * 
-  */
+//  /**
+//   * Passing state to child components
+//   * 
+//   */
 
-//  const Display = (props) =>{
-//   return (
-//     <div>{props.counter} {props.name}
-//     </div>
+// //  const Display = (props) =>{
+// //   return (
+// //     <div>{props.counter} {props.name}
+// //     </div>
     
-//   )
-// }
-// const Button = (props) => {
-//   return (
-//     <button onClick={props.handleClick}>
-//       {props.text}
-//     </button>
-//   )
-// }
+// //   )
+// // }
+// // const Button = (props) => {
+// //   return (
+// //     <button onClick={props.handleClick}>
+// //       {props.text}
+// //     </button>
+// //   )
+// // }
+// //  const App = () => {
+// //    const message = 'clicked on the button'
+// //    const[counter, setCounter] = useState(2); 
+// //     const handleClick = () => {
+// //       alert(message)
+// //     }
+// // //the button onlcik attributte references the handleClick function
+// // //the function can be written striaght inside the html JSX
+// // //separating the functions into handlers
+// // //calling a function that changes state causes the component to rerender
+// // const increaseByOne = () => setCounter(counter + 1 ); 
+// // const setToZero = () => setCounter(0); 
+// // const decreaseByONe = () => setCounter(counter - 1); 
+// //     return (
+// //       <div>
+// //         <Display counter={counter} name={message}>
+// //         </Display>
+
+// //         <Button handleClick={increaseByOne} text={"increase by One"} >         
+// //         </Button>
+// //         <Button handleClick={setToZero} text={'set to zero'}>
+// //         </Button>
+// //         <Button handleClick={decreaseByONe} text={'minus'}>
+
+// //         </Button>
+// //         {/* <button onClick={handleClick}>
+// //           Plus
+// //         </button>
+// //         <button onClick={() => setCounter(counter + 1 )}>
+// //           zero
+
+// //         </button> */}
+// //         </div> 
+// //     )
+// //  }
+
+
+// //Refactoring components
+// //destructoring the parameters
+// //returns on one line
+// const Display = ({counter, name}) => <div>{counter}{name}</div>
+  
+// const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
+
 //  const App = () => {
 //    const message = 'clicked on the button'
 //    const[counter, setCounter] = useState(2); 
@@ -152,50 +196,91 @@ import ReactDOM from 'react-dom'
 //  }
 
 
-//Refactoring components
-//destructoring the parameters
-//returns on one line
-const Display = ({counter, name}) => <div>{counter}{name}</div>
+//  ReactDOM.render(<App/>, document.getElementById('root')); 
+
+
+//1d a more complex state
+//debugging react apps
+import React,{useState} from 'react'; 
+import ReactDOM from 'react-dom'; 
+
+
+const App = () => 
+{
+  //setting two states in one object
+  const [clicks, setClicks] = useState({
+    left: 0, 
+    right: 0,
+    allClicks: []
+  });
+
+
+  //handles the clicking history
   
-const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
-
- const App = () => {
-   const message = 'clicked on the button'
-   const[counter, setCounter] = useState(2); 
-    const handleClick = () => {
-      alert(message)
-    }
-//the button onlcik attributte references the handleClick function
-//the function can be written striaght inside the html JSX
-//separating the functions into handlers
-//calling a function that changes state causes the component to rerender
-const increaseByOne = () => setCounter(counter + 1 ); 
-const setToZero = () => setCounter(0); 
-const decreaseByONe = () => setCounter(counter - 1); 
-    return (
+  const History = (props)=> {
+    const message = 'app is used by clicking buttons'
+if(props.allClicks.length === 0){
+  return (
+    <div>
+      {message}
+    </div>
+  )
+}
+    return(
       <div>
-        <Display counter={counter} name={message}>
-        </Display>
-
-        <Button handleClick={increaseByOne} text={"increase by One"} >         
-        </Button>
-        <Button handleClick={setToZero} text={'set to zero'}>
-        </Button>
-        <Button handleClick={decreaseByONe} text={'minus'}>
-
-        </Button>
-        {/* <button onClick={handleClick}>
-          Plus
-        </button>
-        <button onClick={() => setCounter(counter + 1 )}>
-          zero
-
-        </button> */}
-        </div> 
+        button press history: {props.allClicks.join('')}
+        </div>
     )
- }
+  }
 
+  //component that handles the button
 
- ReactDOM.render(<App/>, document.getElementById('root')); 
+  const Button = ({onClick, text}) => {
+    return(
+      <div>
+        <button onClick={onClick}>
+          {text}
+        </button>
+      </div>
+    )
+  }
 
+  //chanages the value of the left click but updating left and leaving right as is
+  //using the spread syntax
+  ///..clicks creates  new object that copies all the properties of the click object. by specifing the new property in newClicks, 
+  //changes the property
+  //it is forbidden to mutate state directly (clicks.right ++ ) has to be done by setting state to a new object
 
+  const handleLeftClick = () => {
+    const newClicks = {
+      ...clicks, 
+      left: clicks.left  + 1,
+      allClicks: clicks.allClicks.concat('L')
+    
+    }
+    setClicks(newClicks); 
+  }
+  const handleRightClick = () => {
+    const newClicks = {
+      ...clicks, 
+      right: clicks.right + 1, 
+      allClicks: clicks.allClicks.concat('R')
+
+    }
+    setClicks(newClicks); 
+  }
+
+  return(
+    <div>
+      <div>
+       {clicks.left}
+       <Button onClick={handleLeftClick} text="left button" />
+       {clicks.right}
+       <Button onClick={handleRightClick} text="right button" /> 
+      </div>
+      <History allClicks={clicks.allClicks} /> 
+      </div> 
+  )
+}
+
+ReactDOM.render(<App/>,document.getElementById('root')); 
