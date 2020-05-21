@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
  */
 
 const Button = (props) => {
-  
   return (
 <button onClick={props.handleClick}>
   {props.text}
@@ -14,8 +13,7 @@ const Button = (props) => {
   )
 }
 
-const Stats = (props) => {
-  
+const Stats = (props) => { 
   return (
       <table>
         <tr>
@@ -45,7 +43,10 @@ const Stats = (props) => {
         </table> 
   )
 }
- const App = () => {
+
+
+ const App = (props) => {
+   const [selected, setSelected] = useState(0); 
    const [good, setGood] = useState(0); 
    const [netural, setNetural] = useState(0); 
    const [bad, setBad] = useState(0); 
@@ -73,24 +74,26 @@ const Stats = (props) => {
    const positive = () => {
      return getAverage() * 100;  
    }
-   if(counter > 0) {
-   return(
-     <div>
-     <h1>Give Feedback</h1>
+   const html = (<div>
+    <h1>Give Feedback</h1>
 <Button text="good" handleClick={handleClick('good')}></Button>
 <Button text="netural" handleClick={handleClick('netural')}></Button>
-<Button text="bad" handleClick={handleClick('bad')}> </Button>
+<Button text="bad" handleClick={handleClick('bad')}> </Button> </div>)
+
+   if(counter > 0) {
+     
+   return(
+     <div> 
+       {html}
 <Stats  good={good} netural={netural} bad={bad} all={counter} average={getAverage()} positive={positive()}></Stats>
-</div>
+</div> 
+
 
    )
    }else {
      return (
-    <div>
-    <h1>Give Feedback</h1>
-<Button text="good" handleClick={handleClick('good')}></Button>
-<Button text="netural" handleClick={handleClick('netural')}></Button>
-<Button text="bad" handleClick={handleClick('bad')}> </Button>
+    <div> 
+      {html}
 <p> No feedback given </p>
 </div>
      )
