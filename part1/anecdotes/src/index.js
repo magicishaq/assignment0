@@ -10,6 +10,15 @@ const anecdotoes = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+
+const Vote = (props) => {
+
+  return (
+    <button onClick={props.handleClick}>
+      Vote
+    </button>
+  )
+}
 const Button = (props) => {
 
   return (
@@ -18,7 +27,20 @@ const Button = (props) => {
   </button>
   )
 }
-const App = (props) => {
+
+
+const App = (props) => { 
+  const score = [...anecdotoes];
+score.fill(0, 0, score.length); //emptys the array and fills it with 0; 
+  const [points, setPoints] = useState(score); 
+  const addVote = () => {
+    const newScore = points[selected] + 1
+    const newPoints = [...points]; 
+    const nPoints = newPoints.splice(points[selected], 1, newScore)
+    //const nPoints = [...points, points[selected] + 1 ]; 
+    console.log(nPoints); 
+    return setPoints(nPoints)
+  }
   const [selected, setSelected] = useState(0); 
   const randomNumber = () => Math.floor(Math.random() * anecdotoes.length) //gets a random number between the length of the array
   const handleClick = () => {setSelected(randomNumber())} //sets the state as a random number
@@ -26,8 +48,9 @@ const App = (props) => {
   const prevButton = 'previous'; 
   return(
     <div>
-      {props.anecdotoes[selected]}
+      {props.anecdotoes[selected]} has {points[selected]}   
       <Button handleClick={handleClick} text={nextButton}></Button>
+      <button onClick={addVote}>Vote</button>
       </div> 
   )
 }
