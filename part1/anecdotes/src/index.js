@@ -32,14 +32,13 @@ const Button = (props) => {
 const App = (props) => { 
   const score = [...anecdotoes];
 score.fill(0, 0, score.length); //emptys the array and fills it with 0; 
-  const [points, setPoints] = useState(score); 
+  const [points, setPoints] = useState([...score]); 
   const addVote = () => {
-    const newScore = points[selected] + 1
-    const newPoints = [...points]; 
-    const nPoints = newPoints.splice(points[selected], 1, newScore)
-    //const nPoints = [...points, points[selected] + 1 ]; 
-    console.log(nPoints); 
-    return setPoints(nPoints)
+    const newPoints = points 
+    newPoints[selected] =  newPoints[selected] + 1; 
+console.log(newPoints)
+   // newPoints.splice(points[selected], 1, points[selected] + 1)
+    return setPoints(newPoints)
   }
   const [selected, setSelected] = useState(0); 
   const randomNumber = () => Math.floor(Math.random() * anecdotoes.length) //gets a random number between the length of the array
