@@ -11,6 +11,28 @@ const anecdotoes = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
+const HighestVoted = (props) => {
+  const findHighest = () => { 
+    const highest = Math.max(...props.score)
+    const position = props.score.indexOf(highest)
+    return props.anecdotoes[position]; 
+  }
+  const highest = findHighest(); 
+if(highest != 0 ){
+  return (
+  <div>
+    <h1>The Highest rated is: </h1>
+    <h3>{highest}</h3>
+  </div>
+  )
+}else{
+  return (
+    <div>
+      <h1>Please vote to see the highest</h1>
+    </div>
+  )
+}
+}
 const Vote = (props) => {
 
   return (
@@ -27,32 +49,42 @@ const Button = (props) => {
   </button>
   )
 }
-
-
-const App = (props) => { 
-  const score = [...anecdotoes];
+const score = [...anecdotoes];
 score.fill(0, 0, score.length); //emptys the array and fills it with 0; 
-  const [points, setPoints] = useState([...score]); 
+const App = (props) => { 
+  const [selected, setSelected] = useState(0); 
+  const [render, setRender] = useState(0); 
+  const randomNumber = () => Math.floor(Math.random() * anecdotoes.length) //gets a random number between the length of the array
+  const handleClick = () => {
+    const newRandom = randomNumber(); 
+    if(newRandom != selected){
+      setSelected(newRandom)
+    }else{
+      handleClick()
+    }
+    
+  } //sets the state as a random number
+  const [points, setPoints] = useState(props.score); 
   const addVote = () => {
     const newPoints = points 
-    newPoints[selected] =  newPoints[selected] + 1; 
-console.log(newPoints)
-   // newPoints.splice(points[selected], 1, points[selected] + 1)
-    return setPoints(newPoints)
+    newPoints[selected] =  newPoints[selected] + 1;
+    setPoints(newPoints)
+    setRender(render + 1) //need to set this render because array mutation does not cause a re-render. 
   }
-  const [selected, setSelected] = useState(0); 
-  const randomNumber = () => Math.floor(Math.random() * anecdotoes.length) //gets a random number between the length of the array
-  const handleClick = () => {setSelected(randomNumber())} //sets the state as a random number
   const nextButton = 'next anecdote'; 
   const prevButton = 'previous'; 
   return(
     <div>
-      {props.anecdotoes[selected]} has {points[selected]}   
+      <h1>Anecdote of the day</h1>
+     <h2>{props.anecdotoes[selected]}</h2> 
+      <h2> has {points[selected]} votes</h2>
       <Button handleClick={handleClick} text={nextButton}></Button>
       <button onClick={addVote}>Vote</button>
+
+      <HighestVoted score={props.score} anecdotoes={props.anecdotoes} ></HighestVoted>
       </div> 
   )
 }
 
-ReactDOM.render(<App anecdotoes={anecdotoes}/>, document.getElementById('root')); 
+ReactDOM.render(<App anecdotoes={anecdotoes} score={score}/>, document.getElementById('root')); 
 
