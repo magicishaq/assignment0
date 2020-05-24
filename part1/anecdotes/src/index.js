@@ -15,10 +15,12 @@ const HighestVoted = (props) => {
   const findHighest = () => { 
     const highest = Math.max(...props.score)
     const position = props.score.indexOf(highest)
-    return props.anecdotoes[position]; 
+    return {highest : props.anecdotoes[position], votes : highest} 
   }
-  const highest = findHighest(); 
-if(highest != 0 ){
+  
+  const highest = findHighest().highest; 
+  const votes = findHighest().votes; 
+if(votes != 0 ){
   return (
   <div>
     <h1>The Highest rated is: </h1>
