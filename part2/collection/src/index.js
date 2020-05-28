@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
+import Note from './components/Note'
+//moduals
+
 
 const notes = [
   {
@@ -23,12 +26,12 @@ const notes = [
   }
 ]
 
-//displaying a single not
-const Note = ({note}) => {
-  return (
-    <li>{note.content}</li>
-  )
-}
+// //displaying a single not
+// const Note = ({note}) => {
+//   return (
+//     <li>{note.content}</li>
+//   )
+// }
 
 const App = ({notes}) => {
   //const {notes} = props //deconstruct the object passed props.notes = notes object 
