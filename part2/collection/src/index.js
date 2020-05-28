@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import Note from './components/Note'
+//import Note from './components/Note'
+import App from './components/App'
 //moduals
 
 
@@ -33,7 +34,7 @@ const notes = [
 //   )
 // }
 
-const App = ({notes}) => {
+// const App = ({notes}) => {
   //const {notes} = props //deconstruct the object passed props.notes = notes object 
   //impractical, can be achieved using the map array function
   // const html = (
@@ -54,19 +55,19 @@ const App = ({notes}) => {
   //   </ul>
   // ); 
 
-return(
-  <div>
-   <h1>Notes</h1>
-   <ul>
-     {notes.map(note => 
-       <Note key={note.id} note={note} />
-     )}
-   </ul>
+  // return(
+  //   <div>
+  //   <h1>Notes</h1>
+  //   <ul>
+  //     {notes.map(note => 
+  //       <Note key={note.id} note={note} />
+  //     )}
+  //   </ul>
 
 
 
-    </div>
-)
-}
+  //     </div>
+  // )
+  // }
 
 ReactDOM.render(<App notes={notes}/>, document.getElementById('root'))
