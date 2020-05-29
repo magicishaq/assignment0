@@ -7,9 +7,9 @@ import Total from './component/total'
 const Course = ({course}) => {
   return (
         <div>
-          <Header course={course.name}></Header>
-          <Content part1={course.part[0].name} exercise1={course.part[0].exercises} part2={course.part[1].name} exercise2={course.part[1].exercises} part3={course.part[2].name} exercise3={course.part[2].exercises}></Content>
-          <Total exercise1={course.part[0].exercises} exercise2={course.part[1].exercises} exercise3={course.part[2].exercises} numString={course.numString}></Total>
+          <Header course={course.name} />
+          <Content part1={course.part[0].name} exercise1={course.part[0].exercises} part2={course.part[1].name} exercise2={course.part[1].exercises} part3={course.part[2].name} exercise3={course.part[2].exercises} />
+          <Total exercise1={course.part[0].exercises} exercise2={course.part[1].exercises} exercise3={course.part[2].exercises} numString={course.numString} />
         </div>
   )
 
