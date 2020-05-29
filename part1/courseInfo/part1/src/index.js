@@ -8,8 +8,8 @@ const Course = ({course}) => {
   return (
         <div>
           <Header course={course.name} />
-          <Content part1={course.part[0].name} exercise1={course.part[0].exercises} part2={course.part[1].name} exercise2={course.part[1].exercises} part3={course.part[2].name} exercise3={course.part[2].exercises} />
-          <Total exercise1={course.part[0].exercises} exercise2={course.part[1].exercises} exercise3={course.part[2].exercises} numString={course.numString} />
+          <Content part={course.part} />
+          <Total total={course} />
         </div>
   )
 
@@ -17,20 +17,29 @@ const Course = ({course}) => {
 
 const App = () => {
   const course = {
+  id: 1,
    name :  'Half Stack application development', 
    numString: 'Number of exercises', 
    part : [
     {
       name: 'Fundamentals of React', 
-      exercises: 10
+      exercises: 10,
+      id: 1
     },
    {
       name: 'Using props to pass data', 
-      exercises: 7
+      exercises: 7,
+      id: 2
     },
     {
       name: 'State of a component', 
-      exercises: 14
+      exercises: 14,
+      id: 3
+    }, 
+    {
+      name: 'Redux',
+      exercises: 11,
+      id: 4
     }
   ]
   }
