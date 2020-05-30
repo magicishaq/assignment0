@@ -1,20 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Course from './component/course'
-// import Header from './component/header'
-// import Content from './component/content' //part compent is defined here
-// import Total from './component/total'
-
-// const Course = ({course}) => {
-//   return (
-//         <div>
-//           <Header course={course.name} />
-//           <Content part={course.parts} />
-//           <Total total={course} />
-//         </div>
-//   )
-
-// }
+import NoteApp from './component/noteApp'
 
 const App = () => {
   const courses =[ {
@@ -62,11 +49,15 @@ const App = () => {
   ]
 
 }]
+
+
+const notes = []
   
 return (
   <div>
 <Course course={courses[0]} /> 
 <Course course={courses[1]} />
+<NoteApp notes={notes} />
 </div>
 )
 }
