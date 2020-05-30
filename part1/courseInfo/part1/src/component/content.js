@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import Part from './part'
 
 
-const Content = (props) => {
-    return (
+const Content = ({part}) => {
+return (
       <div>
-        <Part part={props.part1} exercise={props.exercise1}></Part>
-        <Part part={props.part2} exercise={props.exercise2}></Part>
-        <Part part={props.part3} exercise={props.exercise3}></Part>
+        {part.map(obj => 
+        {
+            return <Part key={obj.id} name={obj.name} exercises={obj.exercises} />
+        })}
       </div>
     )
   }

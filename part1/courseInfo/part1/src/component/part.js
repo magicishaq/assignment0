@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 
 const Part = (props) => {
       return (
-    <>
-      <p>{props.part} {props.exercise}</p>
-    </>
+    <ul>
+      <li key={props.id}>{props.name} {props.exercises}</li>
+    </ul>
       )
     }
 

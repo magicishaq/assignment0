@@ -8,7 +8,7 @@ const Course = ({course}) => {
   return (
         <div>
           <Header course={course.name} />
-          <Content part={course.part} />
+          <Content part={course.parts} />
           <Total total={course} />
         </div>
   )
@@ -16,11 +16,11 @@ const Course = ({course}) => {
 }
 
 const App = () => {
-  const course = {
+  const courses =[ {
   id: 1,
    name :  'Half Stack application development', 
    numString: 'Number of exercises', 
-   part : [
+   parts : [
     {
       name: 'Fundamentals of React', 
       exercises: 10,
@@ -42,10 +42,31 @@ const App = () => {
       id: 4
     }
   ]
-  }
+  }, 
+{
+  id: 2,
+  numString: 'Number of exercises', 
+  name: 'Node.js',
+  parts: [
+    {
+      name: 'Routing',
+      exercises: 3,
+      id: 1
+    },
+    {
+      name: 'Middlewares',
+      exercises: 7,
+      id: 2
+    }
+  ]
+
+}]
   
 return (
-<Course course={course} /> 
+  <div>
+<Course course={courses[0]} /> 
+<Course course={courses[1]} />
+</div>
 )
 }
 
