@@ -5,11 +5,25 @@ import Note from './note'
 const NoteApp = (props) => {
     
     const [notes, setNote] = useState(props.notes)
-    debugger
     const [newNote, setNewNote] = useState('...a new note')
     const addNote = (event) => {
         event.preventDefault() //prevents default action of submitting the form
-        console.log('button clicked', event.target)
+        const noteObject = {
+            content: newNote, 
+            date: new Date().toISOString(),
+            important: Math.random() < 0.5,
+            id: notes.length + 1,
+        }
+        setNotes(notes.concat(noteObject))
+        setNewNote(''); 
+    }
+
+
+
+    //handles the input change value
+    const handleNoteChange = (event) => {
+        console.log(event.target.value)
+        setNewNote(event.target.value)
     }
     return (
 
@@ -23,8 +37,9 @@ const NoteApp = (props) => {
 
             </ul>
             <form onSubmit={addNote}>
-                <input value={newNote}/>
+                <input value={newNote} onChange={handleNoteChange}/>
                 <button type="submit">Save</button>
+                {newNote}
             </form>
         </div>
     )
