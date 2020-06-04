@@ -6,6 +6,12 @@ const NoteApp = (props) => {
     
     const [notes, setNote] = useState(props.notes)
     const [newNote, setNewNote] = useState('...a new note')
+    //filtering displayed elements
+    const [showAll, setShowAll] = useState(true)
+
+    const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
+    debugger
+
     const addNote = (event) => {
         event.preventDefault() //prevents default action of submitting the form
         const noteObject = {
@@ -14,8 +20,8 @@ const NoteApp = (props) => {
             important: Math.random() < 0.5,
             id: notes.length + 1,
         }
-        setNotes(notes.concat(noteObject))
-        setNewNote(''); 
+        setNote(notes.concat(noteObject)) //does not mutate the orginal array make a copy therefore doesnt directly change the state
+        setNewNote(''); //the text in the input box is reset
     }
 
 
@@ -30,7 +36,7 @@ const NoteApp = (props) => {
         <div>
             <h1>Notes</h1>
             <ul>
-                {notes.map(note => 
+                {notesToShow.map(note => 
                     <Note note={note} />
                     
                     )}
@@ -39,7 +45,6 @@ const NoteApp = (props) => {
             <form onSubmit={addNote}>
                 <input value={newNote} onChange={handleNoteChange}/>
                 <button type="submit">Save</button>
-                {newNote}
             </form>
         </div>
     )
