@@ -14,7 +14,12 @@ id: 1}])
   
   const removeDuplicates= (myArr, prop) => {
     return myArr.filter((obj, pos, arr) => {
-        return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
+         if (arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) !== pos) {
+         alert(`${obj[prop]} has already been added to the list`)
+         }else{
+             return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
+         }
+         
     })
 }
   const addPerson = (event) => {
