@@ -1,12 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Numbers = ([person]) => {
+const Numbers = ({person}) => {
    // const thing = prop
 
-    console.log(person)
+    
     return(
 <div>
+    <ul>
+        <li key={person.id}> {person.name} </li>
+    </ul>
 </div>
     )
 }
