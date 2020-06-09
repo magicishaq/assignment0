@@ -1,15 +1,11 @@
 import React, {useState} from 'react'
 import Numbers from './numbers'
 
-const App = () => {
-  const [persons, setPersons] = useState([{name: 'Artho Hellas', 
-  phone: '01211111111',
-id: 1}]) //data for people
-
-const [filter, setFilter] = useState('')
-
-    const [phone, setPhone] = useState('') //state for phone number
-  const [newName, setNewName] =useState('') //state for new name
+const App = ({data}) => {
+  const [persons, setPersons] = useState(data) //data for people
+const [filterd, setFilter] = useState('')
+const [phone, setPhone] = useState('') //state for phone number
+const [newName, setNewName] =useState('') //state for new name
   //when name input is modified
   const handleNoteChange = (event) => {
     console.log(event.target.value)
@@ -22,11 +18,13 @@ const [filter, setFilter] = useState('')
   }
 
   //when filter input is changed
-
-  const showFilter = () => {
-      //filter array based on the filter state value
-      
+  const handleFilter = (event) => {
+      console.log(event.target.value)
+      setFilter(event.target.value)
   }
+
+  const showFilter = filterd.length === 0 ? persons : persons.filter(person => person.name.includes(filterd))
+  
   //removes duplicates entries from the array
   const removeDuplicates= (myArr, prop) => {
     return myArr.filter((obj, pos, arr) => {
@@ -56,7 +54,7 @@ const [filter, setFilter] = useState('')
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={filter} onChange={showFilter}/>
+      filter shown with <input value={filterd} onChange={handleFilter}/>
 
       <h2> Add a new </h2>
       <form onSubmit={addPerson}>
@@ -70,7 +68,7 @@ const [filter, setFilter] = useState('')
         </div>
       </form>
       <h2>Numbers</h2>
-     {persons.map((person) => <Numbers person={person}></Numbers>)}
+     {showFilter.map((person) => <Numbers person={person}></Numbers>)}
     </div>
 
   )
