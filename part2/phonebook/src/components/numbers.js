@@ -8,7 +8,7 @@ const Numbers = ({person}) => {
     return(
 <div>
     <ul>
-        <li key={person.id}> {person.name} </li>
+        <li key={person.id}> {person.name} Number: {person.phone} </li>
     </ul>
 </div>
     )
