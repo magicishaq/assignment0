@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import ReactDOM from 'react-dom'
 import Note from './note'
 
+
 const NoteApp = (props) => {
     
     const [notes, setNote] = useState(props.notes)

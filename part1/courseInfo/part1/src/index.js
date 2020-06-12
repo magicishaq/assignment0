@@ -2,8 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Course from './component/course'
 import NoteApp from './component/noteApp'
+import axios from 'axios' //new
 
-const App = () => {
+const promise = axios.get('http://localhost:3001/notes')
+
+const App = (props) => {
   const courses =[ {
   id: 1,
    name :  'Half Stack application development', 
@@ -51,16 +54,21 @@ const App = () => {
 }]
 
 
-const notes = []
+
   
 return (
   <div>
 <Course course={courses[0]} /> 
 <Course course={courses[1]} />
-<NoteApp notes={notes} />
+<NoteApp notes={props.notes} />
 </div>
 )
 }
 
-ReactDOM.render(<App/>, document.getElementById('root')); 
+promise.then((response) => {
+  const notes = response.data
+  ReactDOM.render(<App notes={notes}/>, document.getElementById('root')); 
+})
+
+//ReactDOM.render(<App/>, document.getElementById('root')); 
 
