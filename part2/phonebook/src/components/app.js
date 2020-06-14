@@ -1,13 +1,27 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Numbers from './numbers'
 import Filter from './filter'
 import PersonForm from './personForm'
+import axios from 'axios'
 
-const App = ({data}) => {
-const [persons, setPersons] = useState(data) //data for people
+const App = () => {
+const [persons, setPersons] = useState([]) //data for people
 const [filterd, setFilter] = useState('')
 const [phone, setPhone] = useState('') //state for phone number
 const [newName, setNewName] =useState('') //state for new name
+
+const hook = () => {
+  const url = 'http://localhost:3001/persons'
+  console.log('effect')
+  axios.get(url)
+  .then((response)=>{
+    setPersons(response.data)
+  })
+}
+
+useEffect(hook,[]); 
+
+
   //when name input is modified
   const handleNoteChange = (event) => {
     console.log(event.target.value)
