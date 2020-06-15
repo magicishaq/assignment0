@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios'; 
 import Country from './country'
+import Details from './details'
 
 
 
@@ -29,10 +30,8 @@ const Find = (props) => {
         <div>
             Filter shown with <input value={filtered} onChange={handleFilter}/>   
             {showFilter.map(count => <Country country={count} />)}
+            <Details detail={showFilter} />
             </div> 
-
-
-            
     )
 } 
 
