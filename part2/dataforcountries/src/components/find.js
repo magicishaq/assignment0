@@ -26,13 +26,18 @@ const Find = (props) => {
       }
 
     const showFilter = filtered.length === 0 ? [] : country.filter(count => count.name.includes(filtered))
-    return(
+    const messageFilter = (<div>
+        Filter shown with <input value={filtered} onChange={handleFilter}/>   
+        {showFilter.map(count => <Country country={count} />)}
+        </div> )
+    const messageSingle = (
         <div>
-            Filter shown with <input value={filtered} onChange={handleFilter}/>   
-            {showFilter.map(count => <Country country={count} />)}
-            <Details detail={showFilter} />
-            </div> 
+        Filter shown with <input value={filtered} onChange={handleFilter}/>  
+        <Details detail={showFilter} />
+        </div>
     )
+    const isThereOne = showFilter.length === 1 ? messageSingle : messageFilter
+    return (isThereOne)
 } 
 
 export default Find
