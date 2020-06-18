@@ -30,8 +30,14 @@ const Find = (props) => {
         Filter shown with <input value={filtered} onChange={handleFilter}/>   
         {showFilter.map(count => <Country country={count} />)}
         </div> )
-    
-    return messageFilter
+    const messageSingle = (
+        <div>
+        Filter shown with <input value={filtered} onChange={handleFilter}/>  
+        <Details detail={showFilter[0]} />
+        </div>
+    )
+    const isThereOne = showFilter.length === 1 ? messageSingle : messageFilter
+    return (isThereOne)
 } 
 
 export default Find
