@@ -9,10 +9,8 @@ const Find = (props) => {
     const hook = () => {
         const url = 'https://restcountries.eu/rest/v2/all'
         const promise = axios.get(url)
-        console.log('started')
         promise.then((response) =>{
             const data = response.data
-            console.log(response.data, 'has loaded')
             setCountry(data)
             
         })
@@ -21,7 +19,6 @@ const Find = (props) => {
     const [country, setCountry] = useState()
     const [filtered, setFilterd] = useState('')
     const handleFilter = (event) => {
-        console.log(event.target.value)
         setFilterd(event.target.value)
       }
 

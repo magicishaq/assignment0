@@ -1,4 +1,5 @@
 import React from 'react'
+import Weather from './weather'
 
 const Details = ({detail}) => {
         return (
@@ -16,6 +17,7 @@ const Details = ({detail}) => {
         {detail.languages.map((elm) => <li key={elm.nativeName}>{elm.name}</li> )}
             </ul>
             <img src={detail.flag} />
+            <Weather details={detail}></Weather>
                 </div>
         )
 }
