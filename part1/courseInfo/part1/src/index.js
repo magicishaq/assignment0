@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import Course from './component/course'
 import NoteApp from './component/noteApp'
 
+//const promise = axios.get('http://localhost:3001/notes')
+
 const App = () => {
   const courses =[ {
   id: 1,
@@ -51,16 +53,21 @@ const App = () => {
 }]
 
 
-const notes = []
+
   
 return (
   <div>
 <Course course={courses[0]} /> 
 <Course course={courses[1]} />
-<NoteApp notes={notes} />
+<NoteApp />
 </div>
 )
 }
+
+// promise.then((response) => {
+//   const notes = response.data
+//   ReactDOM.render(<App notes={notes}/>, document.getElementById('root')); 
+// })
 
 ReactDOM.render(<App/>, document.getElementById('root')); 
 

@@ -1,10 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import Note from './note'
-
-const NoteApp = (props) => {
-    
-    const [notes, setNote] = useState(props.notes)
+import axios from 'axios'
+const NoteApp = () => {
+  const [notes, setNote] = useState([]);
+  const hook = () =>{
+    console.log('effect')
+    axios
+    .get('http://localhost:3001/notes')
+    .then(response => {
+      console.log('promise fulfilled')
+      setNote(response.data)
+    })
+  }
+  useEffect(hook,[]) //second parameter is how often the effect hook is ran empty array means will only run once
+  console.log('render', notes.length, 'notes'); 
     const [newNote, setNewNote] = useState('...a new note')
     //filtering displayed elements
     const [showAll, setShowAll] = useState(true)
@@ -12,13 +22,6 @@ const NoteApp = (props) => {
     const notesToShow = showAll
      ? notes 
      : notes.filter(note => note.important === true)
-    // let notesToShow 
-    // if(showAll) {
-    //     notesToShow = notes
-    // }else{
-    //     notesToShow = notes.filter(note => note.important === true)
-    // }
-    
 
     const addNote = (event) => {
         event.preventDefault() //prevents default action of submitting the form
