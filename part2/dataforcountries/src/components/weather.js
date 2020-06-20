@@ -5,8 +5,8 @@ import axios from'axios'
 
 const Weather = ({details}) => {
     const [detail, setDetail] = useState(details);
-        //const api = process.env.REACT_APP_API_KEY
-       const api = '78584de80f746567491e5f70da1203e1'
+    //    const api = '78584de80f746567491e5f70da1203e1'
+       const api = process.env.REACT_APP_API_KEY
         const [current, setCurrent] = useState([]); 
         const fullUrl = `http://api.weatherstack.com/current?access_key=78584de80f746567491e5f70da1203e1&query=${detail.capital}`
     const hook = () => {
