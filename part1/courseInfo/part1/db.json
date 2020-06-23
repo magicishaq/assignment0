@@ -81,6 +81,24 @@
       "date": "2020-06-23T16:52:23.123Z",
       "important": false,
       "id": 14
+    },
+    {
+      "content": "greed is good",
+      "date": "2020-06-23T17:33:53.309Z",
+      "important": true,
+      "id": 15
+    },
+    {
+      "content": "bull market",
+      "date": "2020-06-23T17:34:01.929Z",
+      "important": true,
+      "id": 16
+    },
+    {
+      "content": "even newer notes",
+      "date": "2020-06-23T17:35:58.849Z",
+      "important": false,
+      "id": 17
     }
   ]
 }

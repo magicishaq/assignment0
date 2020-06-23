@@ -7,8 +7,8 @@ const NoteApp = () => {
   const [notes, setNote] = useState([]);
   const hook = () =>{
     noteService.getAll()
-    .then(response => {
-        setNote(response.data)
+    .then(initNotes => {
+        setNote(initNotes)
     })
   }
   useEffect(hook,[]) //second parameter is how often the effect hook is ran empty array means will only run once
@@ -34,8 +34,8 @@ const NoteApp = () => {
 
         noteService
         .create(noteObject)
-        .then(response => {
-            setNote(notes.concat(response.data))
+        .then(returnedNotes => {
+            setNote(notes.concat(returnedNotes))
             setNewNote('')
         })
     }
@@ -58,9 +58,13 @@ const NoteApp = () => {
         const note = notes.find(n => n.id === id) //finds the object with the same id as the parameter
         const changedNote = {...note, important: !note.important} //makes a shallow copy of note
 
-        axios.put(url, changedNote)
-        .then(response=>{
-            setNote(notes.map(note => note.id !== id ? note: response.data))
+        noteService.update(id,changedNote).then(returnedNote => {
+            setNote(notes.map(note => note.id !== id ? note : returnedNote))
+        })
+        .catch(error => {
+            alert(`the note ${note.content} was already deleted from the server`)
+            setNote(notes.filter(n => n.id !== id))
+            
         })
     }
     return (
