@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Numbers from './numbers'
 import Filter from './filter'
 import PersonForm from './personForm'
-import axios from 'axios'
+import numberService from '../services/numbers'
 
 const App = () => {
 const [persons, setPersons] = useState([]) //data for people
@@ -11,16 +11,16 @@ const [phone, setPhone] = useState('') //state for phone number
 const [newName, setNewName] =useState('') //state for new name
 
 const hook = () => {
-  const url = 'http://localhost:3001/persons'
-  console.log('effect')
-  axios.get(url)
-  .then((response)=>{
-    setPersons(response.data)
-  })
+  numberService.getAll().then(data => {
+    setPersons(data)
+  })  
 }
-
 useEffect(hook,[]); 
 
+//when deleting an entry
+const deleteButton = (name) =>{
+  const result = window.confirm(`Delete ${name}`)
+}
 
   //when name input is modified
   const handleNoteChange = (event) => {
@@ -61,6 +61,7 @@ useEffect(hook,[]);
     }
     const newArr = persons.concat(personObject)
     const unique = removeDuplicates(newArr, 'name')
+    numberService.create(personObject)
     setPersons(unique)
     setNewName(''); 
     setPhone(''); 
@@ -74,7 +75,7 @@ useEffect(hook,[]);
       <h2> Add a new </h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNoteChange={handleNoteChange} handlePhoneChange={handlePhoneChange} phone={phone} />
       <h2>Numbers</h2>
-     {showFilter.map((person) => <Numbers person={person}></Numbers>)}
+     {showFilter.map((person) => <Numbers person={person} handleClick={() => {deleteButton(person.name)}}></Numbers>)}
     </div>
 
   )
