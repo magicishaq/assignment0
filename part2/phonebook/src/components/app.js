@@ -19,7 +19,14 @@ useEffect(hook,[]);
 
 //when deleting an entry
 const deleteButton = (name) =>{
-  const result = window.confirm(`Delete ${name}`)
+  const result = window.confirm(`Delete ${name.name}`)
+  if(result){
+  numberService.remove(name.id,name).then((request) => {
+    hook()
+  }
+  )
+}
+
 }
 
   //when name input is modified
@@ -38,7 +45,7 @@ const deleteButton = (name) =>{
       console.log(event.target.value)
       setFilter(event.target.value)
   }
-
+debugger
   const showFilter = filterd.length === 0 ? persons : persons.filter(person => person.name.includes(filterd))
   
   //removes duplicates entries from the array
@@ -75,7 +82,7 @@ const deleteButton = (name) =>{
       <h2> Add a new </h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNoteChange={handleNoteChange} handlePhoneChange={handlePhoneChange} phone={phone} />
       <h2>Numbers</h2>
-     {showFilter.map((person) => <Numbers person={person} handleClick={() => {deleteButton(person.name)}}></Numbers>)}
+     {showFilter.map((person) => <Numbers person={person} handleClick={() => {deleteButton(person)}}></Numbers>)}
     </div>
 
   )
