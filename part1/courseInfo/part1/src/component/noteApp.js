@@ -2,19 +2,19 @@ import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import Note from './note'
 import axios from 'axios'
+import noteService from '../services/note'
 const NoteApp = () => {
   const [notes, setNote] = useState([]);
   const hook = () =>{
-    console.log('effect')
-    axios
-    .get('http://localhost:3001/notes')
-    .then(response => {
-      console.log('promise fulfilled')
-      setNote(response.data)
+    noteService.getAll()
+    .then(initNotes => {
+        setNote(initNotes)
     })
   }
   useEffect(hook,[]) //second parameter is how often the effect hook is ran empty array means will only run once
-  console.log('render', notes.length, 'notes'); 
+
+
+
     const [newNote, setNewNote] = useState('...a new note')
     //filtering displayed elements
     const [showAll, setShowAll] = useState(true)
@@ -28,11 +28,16 @@ const NoteApp = () => {
         const noteObject = {
             content: newNote, 
             date: new Date().toISOString(),
-            important: Math.random() < 0.5,
-            id: notes.length + 1,
+            important: Math.random() < 0.5
+            // id: notes.length + 1,
         }
-        setNote(notes.concat(noteObject)) //does not mutate the orginal array make a copy therefore doesnt directly change the state
-        setNewNote(''); //the text in the input box is reset
+
+        noteService
+        .create(noteObject)
+        .then(returnedNotes => {
+            setNote(notes.concat(returnedNotes))
+            setNewNote('')
+        })
     }
 
 
@@ -46,6 +51,22 @@ const NoteApp = () => {
     const clickShowAll = () => {
         setShowAll(!showAll)
     }
+
+    //
+    const toggleImportanceOf = (id) => {
+        const url = `http://localhost:3001/notes/${id}`
+        const note = notes.find(n => n.id === id) //finds the object with the same id as the parameter
+        const changedNote = {...note, important: !note.important} //makes a shallow copy of note
+
+        noteService.update(id,changedNote).then(returnedNote => {
+            setNote(notes.map(note => note.id !== id ? note : returnedNote))
+        })
+        .catch(error => {
+            alert(`the note ${note.content} was already deleted from the server`)
+            setNote(notes.filter(n => n.id !== id))
+            
+        })
+    }
     return (
 
         <div>
@@ -55,8 +76,7 @@ const NoteApp = () => {
             </button>
             <ul>
                 {notesToShow.map(note => 
-                    <Note note={note} />
-                    
+                    <Note note={note} toggleImportance={() => {toggleImportanceOf(note.id)}}/>                   
                     )}
 
             </ul>
