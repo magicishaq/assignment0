@@ -45,31 +45,39 @@ const deleteButton = (name) =>{
       console.log(event.target.value)
       setFilter(event.target.value)
   }
-debugger
-  const showFilter = filterd.length === 0 ? persons : persons.filter(person => person.name.includes(filterd))
-  
-  //removes duplicates entries from the array
-  const removeDuplicates= (myArr, prop) => {
-    return myArr.filter((obj, pos, arr) => {
-         if (arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) !== pos) {
-         alert(`${obj[prop]} has already been added to the list`)
-         }else{
-             return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
-         }
-         
-    })
+
+//shpws the filtered list
+const showFilter = filterd.length === 0 ? persons : persons.filter(person => person.name.includes(filterd))
+//window confirm prompt
+const message = (obj) => {
+  return window.confirm(`${obj.name} has already been added, would you like to change this number`)
 }
+//if the phone number added is new or needs updating
+const replaceName = ( obj) => { 
+  const person = persons.find(person => person.name === obj.name)
+  const changedPerson = {...person, phone : obj.phone}
+  //if person is already on the list or if message prompt is cancelled
+  if(person && message(person) ){
+    //updates the json file
+  numberService.update(changedPerson.id,changedPerson).then(
+    response => {setPersons(persons.map(person => person.name !== obj.name ? person: response))}
+  )
+  }else{
+    //adds a new person to the json file
+    numberService.create(obj).then(response =>{
+      setPersons(persons.concat(response))}
+    )
+  }
+}
+//when add button is clicked
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
         name: newName,
         phone: phone, 
-        id: persons.length + 1
     }
     const newArr = persons.concat(personObject)
-    const unique = removeDuplicates(newArr, 'name')
-    numberService.create(personObject)
-    setPersons(unique)
+    replaceName(personObject); 
     setNewName(''); 
     setPhone(''); 
   }
