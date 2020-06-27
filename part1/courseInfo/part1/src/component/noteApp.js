@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom'
 import Note from './note'
 import axios from 'axios'
 import noteService from '../services/note'
+import Notification from './notification'
+import Footer from './footer'
 const NoteApp = () => {
   const [notes, setNote] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null) //for the error message
   const hook = () =>{
     noteService.getAll()
     .then(initNotes => {
@@ -52,17 +55,19 @@ const NoteApp = () => {
         setShowAll(!showAll)
     }
 
-    //
+    //changes the importance of the note when clicked
     const toggleImportanceOf = (id) => {
         const url = `http://localhost:3001/notes/${id}`
         const note = notes.find(n => n.id === id) //finds the object with the same id as the parameter
         const changedNote = {...note, important: !note.important} //makes a shallow copy of note
-
+        //updates the notes on the server
         noteService.update(id,changedNote).then(returnedNote => {
             setNote(notes.map(note => note.id !== id ? note : returnedNote))
         })
         .catch(error => {
-            alert(`the note ${note.content} was already deleted from the server`)
+        //clause if error is caught
+           setErrorMessage(`Note ${note.content} was already removed from the server`)
+           setTimeout(() => setErrorMessage(null), 5000)
             setNote(notes.filter(n => n.id !== id))
             
         })
@@ -71,6 +76,7 @@ const NoteApp = () => {
 
         <div>
             <h1>Notes</h1>
+            <Notification message={errorMessage} />
             <button onClick={clickShowAll}>
                 show {showAll ?  'important': 'all'}
             </button>
@@ -84,6 +90,7 @@ const NoteApp = () => {
                 <input value={newNote} onChange={handleNoteChange}/>
                 <button type="submit">Save</button>
             </form>
+            <Footer/>
         </div>
     )
 }

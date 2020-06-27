@@ -3,9 +3,19 @@ h1{
 }
 
 /* font for items on the list */
-li{
+.note{
   color: grey; 
   font-style: italic;
   padding-top: 3px;
   font-size: 15px;
+}
+
+.error {
+  color: red; 
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px; 
+  padding: 10px; 
+  margin-bottom: 10px;
 }
