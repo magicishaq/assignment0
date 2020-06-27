@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Course from './component/course'
 import NoteApp from './component/noteApp'
+import './index.css'
 
 //const promise = axios.get('http://localhost:3001/notes')
 

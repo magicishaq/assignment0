@@ -6,7 +6,7 @@ const Note = ({note, toggleImportance}) =>{
     const label = note.important ? 'remove importance' : 'make important'
     
     return(
-    <li key={note.id}> 
+    <li className='note' key={note.id}> 
     
     {note.content} was posted on <b>{note.date}</b>
     
