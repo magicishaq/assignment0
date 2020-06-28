@@ -3,8 +3,10 @@ import Numbers from './numbers'
 import Filter from './filter'
 import PersonForm from './personForm'
 import numberService from '../services/numbers'
+import Added from './added'
 
 const App = () => {
+const [added, setAdded] = useState(null); 
 const [persons, setPersons] = useState([]) //data for people
 const [filterd, setFilter] = useState('')
 const [phone, setPhone] = useState('') //state for phone number
@@ -54,19 +56,28 @@ const message = (obj) => {
 }
 //if the phone number added is new or needs updating
 const replaceName = ( obj) => { 
+  const addedCss = (response) => {
+    setAdded(`Added ${response.name}`)
+setTimeout(() => {
+  setAdded(null)
+},3000)
+  } 
   const person = persons.find(person => person.name === obj.name)
   const changedPerson = {...person, phone : obj.phone}
   //if person is already on the list or if message prompt is cancelled
   if(person && message(person) ){
     //updates the json file
   numberService.update(changedPerson.id,changedPerson).then(
-    response => {setPersons(persons.map(person => person.name !== obj.name ? person: response))}
-  )
+    response => {setPersons(persons.map(person => person.name !== obj.name ? person: response))
+    return response}
+    
+  ).then(addedCss)
   }else{
     //adds a new person to the json file
     numberService.create(obj).then(response =>{
-      setPersons(persons.concat(response))}
-    )
+      setPersons(persons.concat(response)) 
+      return response}
+    ).then(setAdded)
   }
 }
 //when add button is clicked
@@ -86,6 +97,7 @@ const replaceName = ( obj) => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Added added={added}/>
       <Filter filterd={filterd} handleFilter={handleFilter}/>
       <h2> Add a new </h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNoteChange={handleNoteChange} handlePhoneChange={handlePhoneChange} phone={phone} />
