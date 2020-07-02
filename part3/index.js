@@ -3,6 +3,7 @@
 //same as using imports however imports is not supported by node js
 // const http = require('http')
 const express = require('express')
+
 let notes = [
     {
       id: 1,
@@ -32,6 +33,17 @@ let notes = [
 // app.listen(port)
 // console.log(`Server running on port ${port}`)
 const app = express(); //stored in variable app
+app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
+
+//recieving data
+app.post('/api/notes', (request,response) => {
+    const note = request.body
+    console.log(note)
+
+    response.json(note)
+})
+
+
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello World, Ishaq Using nodemon</h1>')
