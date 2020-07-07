@@ -22,6 +22,12 @@ const phone =[
       response.send('<h1>Welcome to the phonebook </h1>')
   })
 
+  app.get('/info', (request, response) => {
+      const count = phone.length
+      const today = new Date()
+      response.send(`<h1> Phonebook has info of ${count} people </h1> </b> <p>${today}</p>`)
+  })
+
   app.get('/api/phonebook', (request, responses) => {
       response.json(phone)
   })
