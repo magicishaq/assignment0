@@ -1,4 +1,4 @@
-const phone =[
+let phone =[
       {
         name: "Max power",
         phone: "011222121212121",
@@ -12,6 +12,11 @@ const phone =[
         phone: "0121 777 7777",
         id: 3
       },
+      {
+          name: "Martin lurther", 
+          phone: "0909099090909090",
+          id : 4
+      }
       
     ]
 
@@ -27,7 +32,7 @@ app.get('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id) //params is defined by using the :id syntax
     const persons = phone.find(person => person.id === id)
     //because if a note isnt found it returned undetified a note will still set, we must use an if statement to return a 404 response if this happens
-    note ? response.json(persons) : response.status(404).end() //shows the note
+    persons ? response.json(persons) : response.status(404).end() //shows the note
   
   
   })
@@ -40,6 +45,21 @@ app.get('/api/persons/:id', (request, response) => {
   app.get('/api/persons', (request, responses) => {
       response.json(phone)
   })
+ //fetching a single note
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id) //params is defined by using the :id syntax
+    const phones = phone.find(contact => contact.id === id)
+    //because if a note isnt found it returned undetified a note will still set, we must use an if statement to return a 404 response if this happens
+     phones ? response.json(phone) : response.status(404).end() //shows the note
+  })
+
+  //deleting resources
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    phone = phone.find(contact => contact.id !== id) //changes the phone list
+    response.status(204).end()
+  })
+  
 
   const PORT = 3001
   app.listen(PORT, () => {
