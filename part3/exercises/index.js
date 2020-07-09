@@ -2,26 +2,72 @@ let phone =[
       {
         name: "Max power",
         phone: "011222121212121",
-        id: 1
+        id: 0
       },{
         name: "Ishaq Khan",
         phone: "0121 753 0327",
-        id: 2
+        id: 1
       },{
         name: "Bill gates",
         phone: "0121 777 7777",
-        id: 3
+        id: 2
       },
       {
           name: "Martin lurther", 
           phone: "0909099090909090",
-          id : 4
+          id : 3
       }
       
     ]
 
   const express = require('express'); 
   const app = express()
+  app.use(express.json())
+
+  //generating a random number for the id
+  const generateId = () => {
+      
+      const idsToAvoid = () => { 
+          const id = phone.map(elm => elm.id)
+          const inorder = id.sort((a,b) => a-b)
+          for(let i = inorder.length; i < 101 ; i++ ){
+              inorder.push(i)
+          }
+
+          return inorder
+        }
+        const newId = phone.length > 0 ? idsToAvoid().splice(Math.floor(Math.random * idsToAvoid().length)) : 0
+        return newId[phone.length]; 
+  }
+
+  //generating a post
+  app.post('/api/persons', (request, response) => {
+      const body = request.body
+      const errorObj = {
+          errorName: 'Please insert a name AND a number', 
+          errorDuplicte: 'name must be unique'
+
+      }
+
+      if(!body.name || !body.phone){
+          return response.status(400).json(errorObj.errorName)
+      }
+
+      if(phone.filter(contact => contact.name === body.name).length > 0){
+          return response.status(400).json(errorObj.errorDuplicte)
+      }
+
+      const newPerson = {
+          name : body.name,
+          phone: body.phone,
+          id: generateId()
+      }
+
+      phone = phone.concat(newPerson)
+      response.json(phone); 
+
+  })
+
 
   app.get('/', (request, response) => {
       response.send('<h1>Welcome to the phonebook </h1>')
@@ -42,7 +88,7 @@ app.get('/api/persons/:id', (request, response) => {
       response.send(`<h1> Phonebook has info of ${count} people </h1> </b> <p>${today}</p>`)
   })
 
-  app.get('/api/persons', (request, responses) => {
+  app.get('/api/persons', (request, response) => {
       response.json(phone)
   })
  //fetching a single note

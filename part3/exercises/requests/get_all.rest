@@ -1,1 +1,47 @@
 DELETE http://localhost:3001/api/persons/1
+
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+
+{
+    "name": "Stan Lee", 
+    "phone" : "0121 435 46732"
+}
+
+
+###
+#testing error for no number
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+
+{
+    "name": "Stan Lee"
+}
+
+###
+#testing no name
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+
+{
+    "phone" : "0121 435 46732"
+}
+
+
+###
+#testing duplicate name
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+
+{
+    "name": "Max power", 
+    "phone" : "0121 435 46732"
+}
+
+
+
