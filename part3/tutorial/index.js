@@ -1,5 +1,25 @@
 //simple web server
 const express = require('express')
+const app = express(); //stored in variable app
+app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
+
+//middleware functions
+const requestLogger = (request, response, next) => {
+  console.log('Method: ', request.method)
+  console.log('Path: ', request.path)
+  console.log('Body: ', request.body)
+  next()
+}
+
+
+const unknownEndpoint = (request, response) => {
+  const errorObject = {error: 'Unknown endpoint'}
+  response.status(400).send(errorObject)
+
+}
+
+app.use('/info', requestLogger)
+
 
 let notes = [{
     id: 1,
@@ -28,9 +48,6 @@ let notes = [{
 // const port = 3001
 // app.listen(port)
 // console.log(`Server running on port ${port}`)
-const app = express(); //stored in variable app
-app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
-//recieving data
 
 const generateId = () => {
   //finds the largest id in the ist , spreading the notes in an array and return the math max of the id
@@ -84,7 +101,7 @@ app.delete('/api/notes/:id', (request, response) => {
 
   response.status(204).end()
 })
-
+app.use(unknownEndpoint)
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`)
