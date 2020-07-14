@@ -1,7 +1,21 @@
 //simple web server
 const express = require('express')
 const app = express(); //stored in variable app
+const morgan = require('morgan')
 app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
+//url //statuscode //responsetime and body 
+const token = morgan.token('type', (tokens, req,res) => {
+return [tokens.method(req,res),
+  tokens.url(req,res),
+   tokens.status(req,res),
+   tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+   ].join(' ')
+})
+
+
+app.use(morgan(token))
+
 
 //middleware functions
 const requestLogger = (request, response, next) => {
@@ -18,7 +32,7 @@ const unknownEndpoint = (request, response) => {
 
 }
 
-app.use('/info', requestLogger)
+app.use(requestLogger)
 
 
 let notes = [{
@@ -102,6 +116,8 @@ app.delete('/api/notes/:id', (request, response) => {
   response.status(204).end()
 })
 app.use(unknownEndpoint)
+
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`)
