@@ -1,28 +1,36 @@
-let phone =[
-      {
-        name: "Max power",
-        phone: "011222121212121",
-        id: 0
-      },{
-        name: "Ishaq Khan",
-        phone: "0121 753 0327",
-        id: 1
-      },{
-        name: "Bill gates",
-        phone: "0121 777 7777",
-        id: 2
-      },
-      {
-          name: "Martin lurther", 
-          phone: "0909099090909090",
-          id : 3
-      }
-      
-    ]
 
   const express = require('express'); 
   const app = express()
+  const morgan = require('morgan'); 
+  //making a token that retrieves the req body from the post
+  morgan.token('body', (req,res) => {return JSON.stringify(req.body)} )
+//method path status time and request
+  const morganString = ':method :url :status :body :res[header] :res[content-length] - :response-time ms ishaq'; 
+  
   app.use(express.json())
+  app.use(morgan(morganString))
+
+ let phone =[
+    {
+      name: "Max power",
+      phone: "011222121212121",
+      id: 0
+    },{
+      name: "Ishaq Khan",
+      phone: "0121 753 0327",
+      id: 1
+    },{
+      name: "Bill gates",
+      phone: "0121 777 7777",
+      id: 2
+    },
+    {
+        name: "Martin lurther", 
+        phone: "0909099090909090",
+        id : 3
+    }
+    
+  ]
 
   //generating a random number for the id
   const generateId = () => {
@@ -106,6 +114,7 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
   })
   
+ 
 
   const PORT = 3001
   app.listen(PORT, () => {
