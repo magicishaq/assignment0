@@ -2,6 +2,8 @@
 const express = require('express')
 const app = express(); //stored in variable app
 const morgan = require('morgan')
+const cors = require('cors'); 
+app.use(cors()); //use cors
 app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
 //url //statuscode //responsetime and body 
 const token = morgan.token('type', (tokens, req,res) => {
