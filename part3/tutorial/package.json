@@ -6,7 +6,12 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "build: ui": "rm -rf build && cd ../../part1/courseInfo/part1/src/index && npm run build --prod && cp -r build ./",
+    "deploy" : "git push heroku master",
+    "setDrive" : "$Env:HOMEDRIVE = 'C:/Users/ikhan'",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy", 
+    "logs:prod" : "heroku logs --tail"  
   },
   "author": "Ishaq Khan",
   "license": "ISC",

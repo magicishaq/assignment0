@@ -6,6 +6,7 @@ const cors = require('cors');
 app.use(cors()); //use cors
 app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
 //url //statuscode //responsetime and body 
+app.use(express.static('build')) //http request get will check build directory 
 const token = morgan.token('type', (tokens, req,res) => {
 return [tokens.method(req,res),
   tokens.url(req,res),
