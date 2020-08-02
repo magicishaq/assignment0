@@ -7,7 +7,7 @@
   morgan.token('body', (req,res) => {return JSON.stringify(req.body)} )
 //method path status time and request
   const morganString = ':method :url :status :body :res[header] :res[content-length] - :response-time ms ishaq'; 
-  
+  app.use(express.static('build'))
   app.use(express.json())
   app.use(morgan(morganString))
 app.use(cors())
