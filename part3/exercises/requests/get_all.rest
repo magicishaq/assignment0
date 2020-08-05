@@ -12,6 +12,17 @@ Content-Type: application/json
 
 
 ###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Hello world", 
+    "phone" : "0121 435 46732"
+}
+
+
+###
 #testing error for no number
 POST http://localhost:3001/api/persons
 Content-Type: application/json

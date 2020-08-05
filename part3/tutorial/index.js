@@ -1,5 +1,43 @@
 //simple web server
 const express = require('express')
+const app = express(); //stored in variable app
+const morgan = require('morgan')
+const cors = require('cors'); 
+app.use(cors()); //use cors
+app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
+//url //statuscode //responsetime and body 
+app.use(express.static('build')) //http request get will check build directory 
+const token = morgan.token('type', (tokens, req,res) => {
+return [tokens.method(req,res),
+  tokens.url(req,res),
+   tokens.status(req,res),
+   tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+   ].join(' ')
+})
+
+
+
+app.use(morgan(token))
+
+
+//middleware functions
+const requestLogger = (request, response, next) => {
+  console.log('Method: ', request.method)
+  console.log('Path: ', request.path)
+  console.log('Body: ', request.body)
+  next()
+}
+
+
+const unknownEndpoint = (request, response) => {
+  const errorObject = {error: 'Unknown endpoint'}
+  response.status(400).send(errorObject)
+
+}
+
+app.use(requestLogger)
+
 
 let notes = [{
     id: 1,
@@ -28,9 +66,6 @@ let notes = [{
 // const port = 3001
 // app.listen(port)
 // console.log(`Server running on port ${port}`)
-const app = express(); //stored in variable app
-app.use(express.json()) //helps to access the data easaily //transform json data into javascript object
-//recieving data
 
 const generateId = () => {
   //finds the largest id in the ist , spreading the notes in an array and return the math max of the id
@@ -84,8 +119,10 @@ app.delete('/api/notes/:id', (request, response) => {
 
   response.status(204).end()
 })
+app.use(unknownEndpoint)
 
-const PORT = 3001
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`)
 })

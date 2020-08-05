@@ -1,6 +1,8 @@
 //single module to handle the backend calls
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/notes'
+//const baseUrl = 'http://localhost:3001/notes'
+//deploying to th'http://localhost:3001e internet
+const baseUrl = '/api/notes' //because of the app.use(express.static('build'))
 
 const getAll = () => 
 {
