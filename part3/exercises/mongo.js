@@ -27,12 +27,7 @@ const phone = new Phone({
 })
 
 
-Phone.find({}).then(result => {
-result.forEach(entry => {
-    console.log(entry)
-    })
-    mongoose.connection.close()
-})
+
 
 if(theName !== undefined && phoneNumber !== undefined) {
 phone.save().then(result => {
@@ -40,6 +35,13 @@ phone.save().then(result => {
     mongoose.connection.close()
 
 })
+}else {
+    Phone.find({}).then(result => {
+        result.forEach(entry => {
+            console.log(entry)
+            })
+            mongoose.connection.close()
+        })
 }
 
 
