@@ -1,5 +1,7 @@
 //simple web server
 const express = require('express')
+//mongoose database
+const mongoose = require('mongoose')
 const app = express(); //stored in variable app
 const morgan = require('morgan')
 const cors = require('cors'); 
@@ -16,7 +18,18 @@ return [tokens.method(req,res),
    ].join(' ')
 })
 
-
+//mongoose url
+const dbName = 'note-app'
+const password = process.argv[2]
+const url = `mongodb+srv://fullstack:${password}@ishaqcluster.fylvo.mongodb.net/${dbName}?retryWrites=true&w=majority`
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+const noteSchema = new mongoose.Schema({
+    content: String, 
+    date: Date, 
+    important: Boolean
+})
+const Note = mongoose.model('Note', noteSchema)
+/**end of mongoose */
 
 app.use(morgan(token))
 
@@ -99,7 +112,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/notes', (req, res) => {
-  res.json(notes)
+  Note.find({}).then(result => {
+    response.json(result)
+  })
 })
 
 //fetching a single note
