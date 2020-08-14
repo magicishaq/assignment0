@@ -111,9 +111,9 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World, Ishaq Using nodemon</h1>')
 })
 
-app.get('/api/notes', (req, res) => {
-  Note.find({}).then(result => {
-    response.json(result)
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
   })
 })
 
