@@ -1,7 +1,8 @@
 //simple web server
 const express = require('express')
 //mongoose database
-const mongoose = require('mongoose')
+//const mongoose = require('mongoose')
+const Note = require('./models/note')
 const app = express(); //stored in variable app
 const morgan = require('morgan')
 const cors = require('cors'); 
@@ -19,10 +20,10 @@ return [tokens.method(req,res),
 })
 
 //mongoose url
-const dbName = 'note-app'
-const password = process.argv[2]
-const url = `mongodb+srv://fullstack:${password}@ishaqcluster.fylvo.mongodb.net/${dbName}?retryWrites=true&w=majority`
-mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
+// const dbName = 'note-app'
+// const password = process.argv[2]
+//const url = `mongodb+srv://fullstack:${password}@ishaqcluster.fylvo.mongodb.net/${dbName}?retryWrites=true&w=majority`
+//mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
 const noteSchema = new mongoose.Schema({
     content: String, 
     date: Date, 
@@ -30,14 +31,14 @@ const noteSchema = new mongoose.Schema({
 })
 
 //format the returned object . changes the id to a string (easier for writing tests)
-noteSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-const Note = mongoose.model('Note', noteSchema)
+// noteSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString()
+//     delete returnedObject._id
+//     delete returnedObject.__v
+//   }
+// })
+// const Note = mongoose.model('Note', noteSchema)
 /**end of mongoose */
 
 app.use(morgan(token))

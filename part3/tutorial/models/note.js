@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+const dbName = 'note-app'
+const password = process.argv[2]
 const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
