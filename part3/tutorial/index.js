@@ -28,6 +28,15 @@ const noteSchema = new mongoose.Schema({
     date: Date, 
     important: Boolean
 })
+
+//format the returned object . changes the id to a string (easier for writing tests)
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
 const Note = mongoose.model('Note', noteSchema)
 /**end of mongoose */
 
@@ -111,7 +120,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Hello World, Ishaq Using nodemon</h1>')
 })
 
-app.get('/api/notes', (request, response) => {
+app.get('/api/notes', (request, response) => { 
   Note.find({}).then(notes => {
     response.json(notes)
   })
