@@ -2,7 +2,9 @@ const mongoose = require('mongoose')
 
 const dbName = 'note-app'
 const password = process.argv[2]
+const oldUrl =  `mongodb+srv://fullstack:${password}@ishaqcluster.fylvo.mongodb.net/${dbName}?retryWrites=true&w=majority`
 const url = process.env.MONGODB_URI
+
 
 console.log('connecting to', url)
 
