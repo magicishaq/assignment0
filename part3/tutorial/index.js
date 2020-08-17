@@ -1,7 +1,7 @@
 //simple web server
 const express = require('express')
 //mongoose database
-//const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 //get the enviroment variables
 require('dotenv').config()
 const Note = require('./models/note')

@@ -1,8 +1,12 @@
 
+  //for the enviroment variables
+  require('dotenv').config()
   const express = require('express') 
   const app = express()
   const morgan = require('morgan')
   const cors = require('cors') 
+  const mongoose = require('mongoose')
+  const Phone = require('./models/phonebook')
   //making a token that retrieves the req body from the post
   morgan.token('body', (req,res) => {return JSON.stringify(req.body)} )
 //method path status time and request
@@ -51,12 +55,15 @@ app.use(cors())
 
   //generating a post
   app.post('/api/persons', (request, response) => {
+    
       const body = request.body
       const errorObj = {
           errorName: 'Please insert a name AND a number', 
           errorDuplicte: 'name must be unique'
 
       }
+
+      
 
       if(!body.name || !body.phone){
           return response.status(400).json(errorObj.errorName)
@@ -66,14 +73,25 @@ app.use(cors())
           return response.status(400).json(errorObj.errorDuplicte)
       }
 
-      const newPerson = {
-          name : body.name,
-          phone: body.phone,
-          id: generateId()
-      }
+      // const newPerson = {
+      //     name : body.name,
+      //     phone: body.phone,
+      //     id: generateId()
+      // }
 
-      phone = phone.concat(newPerson)
-      response.json(phone); 
+      // phone = phone.concat(newPerson)
+      // response.json(phone); 
+
+      
+//using the database
+const newPhone = new Phone({
+  name: body.name, 
+  phone: body.phone
+})
+      
+      newPhone.save().then(savedPhone => {
+        response.json(savedPhone)
+      })
 
   })
 
@@ -84,10 +102,15 @@ app.use(cors())
 //getting an id
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id) //params is defined by using the :id syntax
-    const persons = phone.find(person => person.id === id)
-    //because if a note isnt found it returned undetified a note will still set, we must use an if statement to return a 404 response if this happens
-    persons ? response.json(persons) : response.status(404).end() //shows the note
+    // const id = Number(request.params.id) //params is defined by using the :id syntax
+    // const persons = phone.find(person => person.id === id)
+    // //because if a note isnt found it returned undetified a note will still set, we must use an if statement to return a 404 response if this happens
+    // persons ? response.json(persons) : response.status(404).end() //shows the note
+
+    //using database
+    Phone.findById(request.params.id).then(phone => {
+      response.json(phone)
+    })
   
   
   })
@@ -98,7 +121,10 @@ app.get('/api/persons/:id', (request, response) => {
   })
 
   app.get('/api/persons', (request, response) => {
-      response.json(phone)
+    Phone.find({}).then(entry => {
+      response.json(entry)
+    })
+      
   })
  //fetching a single note
 app.get('/api/persons/:id', (request, response) => {
@@ -117,7 +143,7 @@ app.delete('/api/persons/:id', (request, response) => {
   
  
 
-  const PORT = process.env.PORT || 3001
+  const PORT = process.env.PORT
   app.listen(PORT, () => {
       console.log(`Server is running on ${PORT}`)
   })

@@ -55,4 +55,13 @@ Content-Type: application/json
 }
 
 
+###
+#testing the backend
 
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Test Name", 
+    "phone" : "9090909090"
+}
