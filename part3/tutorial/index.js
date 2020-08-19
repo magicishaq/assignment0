@@ -65,7 +65,8 @@ const errorHandler = (error, request, response, next) => {
   console.log(error.message)
   if(error.name === 'CastError') {
     return response.status(400).send({error})
-  
+  }
+
   next(error)
 }
 app.use(errorHandler); 
@@ -186,11 +187,31 @@ app.get('/api/notes/:id', (request, response) => {
 })
 
 //deleting resources
-app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
+// app.delete('/api/notes/:id', (request, response) => {
+//   const id = Number(request.params.id)
+//   notes = notes.filter(note => note.id !== id)
 
-  response.status(204).end()
+//   response.status(204).end()
+// })
+
+//changing the importance of a note
+app.put('/api/notes/:id', (request, response, next) => {
+  const body = request.body
+
+  const note = {
+    content: body.content,
+    important: body.important
+  }
+
+  Note.findByIdAndUpdate(request.params.id, note, {new: true}).then(updatedNote => {response.json(updatedNote)}).catch(error => next(error))
+})
+//deleting from the database
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndRemove(request.params.id).then(result => {
+    response.status(204).end()
+  }).catch(error => {
+    next(error)
+  })
 })
 
 const PORT = process.env.PORT
