@@ -36,7 +36,13 @@ const secondNote = new Note (
         date: new Date(), 
         important: true
     })
-
+const thirdNote = new Note (
+    {
+        content: 'ishaq khan', 
+        date: new Date(), 
+        impotant: false
+    }
+)
 
 
 // note.save().then(result => {
