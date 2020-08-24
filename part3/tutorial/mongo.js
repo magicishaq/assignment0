@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 const dbName = 'note-app'
 //password
 //mongodb+srv://fullstack:<password>@ishaqcluster.fylvo.mongodb.net/<dbname>?retryWrites=true&w=majority

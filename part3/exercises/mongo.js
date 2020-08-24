@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 const pasword = 'Password123'
 const dbName = 'phonebook-app'
 
