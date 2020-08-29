@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validation')
 mongoose.set('useFindAndModify', false)
 const pasword = 'Password123'
 const dbName = 'phonebook-app'
@@ -17,9 +18,18 @@ const url = `mongodb+srv://fullstack:${password}@ishaqcluster.fylvo.mongodb.net/
 mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
 
 const phoneSchema = new mongoose.Schema({
-    name: String,
-    phone: String
+    name: {
+        type: String,
+        minlength: 4,
+        required: true
+    },
+    phone:{
+        type: String,
+        minlength: 11,
+        required: true
+    }
 })
+phoneSchema.plugin(uniqueValidator); 
 
 const Phone = mongoose.model('Phone', phoneSchema)
 const phone = new Phone({
