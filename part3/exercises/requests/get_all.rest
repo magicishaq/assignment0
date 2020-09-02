@@ -75,3 +75,13 @@ Content-Type: application/json
     "name" : "Ishaq", 
     "phone" : "07786954332"
 }
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "lol0000",
+    "phone" : "09090909099090"
+}

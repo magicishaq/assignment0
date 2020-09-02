@@ -25,7 +25,7 @@ const phoneSchema = new mongoose.Schema({
     },
     phone:{
         type: String,
-        minlength: 11,
+        minlength: 8,
         required: true
     }
 })
@@ -33,8 +33,8 @@ phoneSchema.plugin(uniqueValidator);
 
 const Phone = mongoose.model('Phone', phoneSchema)
 const phone = new Phone({
-    name: theName,
-    phone: phoneNumber
+    name: 'Ishaq',
+    phone: '013232323232'
 })
 
 
