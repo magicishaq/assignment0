@@ -32,20 +32,20 @@ app.use(cors())
   }
 
   //generating a post
-  app.post('/api/persons', (request, response) => {   
+  app.post('/api/persons', (request, response, next) => {   
       const body = request.body
       const errorObj = {
           errorName: 'Please insert a name AND a number', 
           errorDuplicte: 'name must be unique'
 
       }
-      if(!body.name || !body.phone){
-          return response.status(400).json(errorObj.errorName)
-      }
+      // if(!body.name || !body.phone){
+      //     return response.status(400).json(errorObj.errorName)
+      // }
 
-      if(phone.filter(contact => contact.name === body.name).length > 0){
-          return response.status(400).json(errorObj.errorDuplicte)
-      }
+      // if(phone.filter(contact => contact.name === body.name).length > 0){
+      //     return response.status(400).json(errorObj.errorDuplicte)
+      // }
 
       
 //using the database
@@ -54,9 +54,13 @@ const newPhone = new Phone({
   phone: body.phone
 })
       
-      newPhone.save().then(savedPhone => {
-        response.json(savedPhone)
-      })
+      newPhone.save().then(savedPhone => savedPhone.toJSON())
+      .then(savedFormattedPhone => {
+        response.json(savedFormattedPhone)
+      }).catch(error => {
+        console.log(error.response.data + 'hello world')  
+        return next(error)}
+      )
 
   })
 
