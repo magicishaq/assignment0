@@ -7,7 +7,8 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "homedrive": "$Env:HOMEDRIVE = \"C:\\Users\\ikhan\""
+    "homedrive": "$Env:HOMEDRIVE = \"C:\\Users\\ikhan\"",
+    "lint" : "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^7.9.0",
     "nodemon": "^2.0.4"
   }
 }
