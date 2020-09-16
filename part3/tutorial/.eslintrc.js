@@ -9,11 +9,6 @@ module.exports = {
         'ecmaVersion': 12
     },
     'rules': {
-        'eqeqeq': 'error', 
-        'indent': [
-            'error',
-            2
-        ],
         'linebreak-style': [
             'error',
             'unix'
@@ -25,6 +20,18 @@ module.exports = {
         'semi': [
             'error',
             'never'
+        ], 
+        'eqeqeq': 'error', 
+        'no-trailing-spaces' : 'error', 
+        'object-curly-spacing' : [
+            'error', 'always'
+        ],
+        'indent': [
+            'error',
+            2
+        ],
+        'arrow-spacing' : [
+            'error', {'before': true, 'after' : true}
         ]
     }
 }

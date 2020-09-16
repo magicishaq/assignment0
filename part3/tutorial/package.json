@@ -12,7 +12,7 @@
     "setDrive": "$Env:HOMEDRIVE = 'C:/Users/ikhan'",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "lint": "eslint ."
+    "lint": "npx eslint ."
   },
   "author": "Ishaq Khan",
   "license": "ISC",
